@@ -1,0 +1,42 @@
+账号:<input type="text" class="username"/><span class="usernameTip" style="display:none;">账号不存在</span><br />
+密码:<input type="password" class="password"/><span class="pwdTip" style="display:none;">密码错误</span><br />
+<button class="login">登录</button><button class="toRegister">注册</button><br />
+<button class="forgetPwd">忘记密码？</button>
+
+<script>
+	function loadScript(){
+		var username = document.getElementsByClassName("username")[0];
+		var pwd = document.getElementsByClassName("password")[0];
+		var login = document.getElementsByClassName("login")[0];
+		var toRegister = document.getElementsByClassName("toRegister")[0];
+		var usernameTip = document.getElementsByClassName("usernameTip")[0];
+		var pwdTip = document.getElementsByClassName("pwdTip")[0];
+		var modifyPwd = document.getElementsByClassName("forgetPwd")[0];
+		login.onclick = function(){
+			ajax({
+				url:"http://127.0.0.1/day0327/php/load.php",
+				data:{
+					username:username.value,
+					password:pwd.value
+				},
+				success:function(res){
+					if(res==1){
+						alert("登录成功");
+						box.style.display = "";
+					}else if(res==0){
+						pwdTip.style.display = "";
+						usernameTip.style.display = "none";
+					}else{
+						usernameTip.style.display = "";
+						pwdTip.style.display = "none";
+					}
+				}
+			})
+		}
+		toRegister.onclick = function(){
+			loadRegister();
+		}
+		modifyPwd.onclick = function(){
+			loadModifyPwd();
+		}
+	}

@@ -1,0 +1,44 @@
+<span class="userTip" style="display:none;">账号、手机号或身份证输入有误，请重新输入！</span><br />
+账号:<input type="text" class="username"/><span class="allTip" style="display:none;">请将内容填写完整！</span><br />
+手机号:<input type="text" class="phone"/><br />
+身份证:<input type="text" class="licence"/><br />
+新密码:<input type="password" class="password"/><br />
+<button class="modifyPwd">修改密码</button>
+<script>
+	function modifyScript(){
+		var username = document.getElementsByClassName("username")[0];
+		var pwd = document.getElementsByClassName("password")[0];
+		var phone = document.getElementsByClassName("phone")[0];
+		var licence = document.getElementsByClassName("licence")[0];
+		var modifyPwd = document.getElementsByClassName("modifyPwd")[0];
+		var userTip = document.getElementsByClassName("userTip")[0];
+		var allTip = document.getElementsByClassName("allTip")[0];
+		function modifyPwdAjax(){
+			ajax({
+				url:"http://127.0.0.1/day0327/php/modifypwd.php",
+				data:{
+					username:username.value,
+					password:pwd.value,
+					licence:licence.value,
+					phone:phone.value
+				},
+				success:function(res){
+//					console.log(res)
+					if(res==1){
+						alert("密码修改成功，确认后跳转到登录页");
+						loadLoad();
+					}else{
+						userTip.style.display = "";
+					};
+				}
+			})
+		}
+		modifyPwd.onclick = function(){
+			if(username.value && licence.value && pwd.value && phone.value){
+				modifyPwdAjax();
+			}else{
+				allTip.style.display = "";
+			}
+			
+		}
+	}

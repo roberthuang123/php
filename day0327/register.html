@@ -1,0 +1,56 @@
+<span class="infoTip" style="display:none;">信息填写不全！无法注册！</span><br />
+账号:<input type="text" class="username"/><span class="userTip" style="display:none;">账号已存在</span><br />
+密码:<input type="password" class="password"/><span class="pwdTip" style="display:none;">密码不一致</span><br />
+确认密码:<input type="password" class="repPwd"/><br />
+手机:<input type="text" class="phone"/><br />
+身份证:<input type="text" class="licence"/><br />
+<button class="regBtn">注册</button>
+<button class="backload">返回登录页</button>
+
+<script>
+	function regScript(){
+		var username = document.getElementsByClassName("username")[0];
+		var pwd = document.getElementsByClassName("password")[0];
+		var repPwd = document.getElementsByClassName("repPwd")[0];
+		var phone = document.getElementsByClassName("phone")[0];
+		var licence = document.getElementsByClassName("licence")[0];
+		var regBtn = document.getElementsByClassName("regBtn")[0];
+		var backload = document.getElementsByClassName("backload")[0];
+		var userTip = document.getElementsByClassName("userTip")[0];
+		var pwdTip = document.getElementsByClassName("pwdTip")[0];
+		var infoTip = document.getElementsByClassName("infoTip")[0];
+		function regAjax(){
+			ajax({
+				url:"http://127.0.0.1/day0327/php/register.php",
+				data:{
+					username:username.value,
+					password:pwd.value,
+					phone:phone.value,
+					licence:licence.value
+				},
+				success:function(res){
+					console.log(res)
+					if(res==1){
+						alert("注册成功 确认后跳转到登录页");
+						loadLoad();
+					}else{
+						userTip.style.display = "";
+					};
+				}
+			})
+		}
+		regBtn.onclick = function(){
+			if(username.value && pwd.value && repPwd.value && phone.value && licence.value){
+				if(pwd.value == repPwd.value){
+					regAjax();
+				}else{
+					pwdTip.style.display = "";
+				}
+			}else{
+				infoTip.style.display = "";
+			}
+		}
+		backload.onclick = function(){
+			loadLoad();
+		}
+	}
